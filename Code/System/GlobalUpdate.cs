@@ -1,28 +1,28 @@
-using System.Linq;
+using UnityEngine;
 
 namespace NTC.Global.System
 {
-    public class GlobalUpdate : SimpleSingleton<GlobalUpdate>
+    public class GlobalUpdate : MonoBehaviour
     {
         private void Update()
         {
-            foreach (MonoCache monoCache in MonoCache.allTick.ToList())
+            for (int i = 0; i < MonoCache.AllTick.Count; i++)
             {
-                monoCache.Tick();
+                MonoCache.AllTick[i].Tick();
             }
         }
         private void FixedUpdate()
         {
-            foreach (MonoCache monoCache in MonoCache.allFixedTick.ToList())
+            for (int i = 0; i < MonoCache.AllFixedTick.Count; i++)
             {
-                monoCache.FixedTick();
+                MonoCache.AllFixedTick[i].FixedTick();
             }
         }
         private void LateUpdate()
         {
-            foreach (MonoCache monoCache in MonoCache.allLateTick.ToList())
+            for (int i = 0; i < MonoCache.AllLateTick.Count; i++)
             {
-                monoCache.LateTick();
+                MonoCache.AllLateTick[i].LateTick();
             }
         }
     }

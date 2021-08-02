@@ -5,12 +5,12 @@ namespace NTC.Global.System
 {
     public class MonoCache : MonoBehaviour
     {
-        public static HashSet<MonoCache> allTick = new HashSet<MonoCache>();
-        public static HashSet<MonoCache> allFixedTick = new HashSet<MonoCache>();
-        public static HashSet<MonoCache> allLateTick = new HashSet<MonoCache>();
+        public static readonly List<MonoCache> AllTick = new List<MonoCache>(2000);
+        public static readonly List<MonoCache> AllFixedTick = new List<MonoCache>(1000);
+        public static readonly List<MonoCache> AllLateTick = new List<MonoCache>(1000);
 
-        protected virtual void OnEnable() { allTick.Add(this); OnEnabled(); }
-        protected virtual void OnDisable() { allTick.Remove(this); OnDisabled(); }
+        protected virtual void OnEnable() { AllTick.Add(this); OnEnabled(); }
+        protected virtual void OnDisable() { AllTick.Remove(this); OnDisabled(); }
         
         protected virtual void OnEnabled() { }
         protected virtual void OnDisabled() { }
@@ -19,8 +19,8 @@ namespace NTC.Global.System
         public void FixedTick() => OnFixedTick();
         public void LateTick() => OnLateTick();
 
-        public virtual void OnTick() { }
-        public virtual void OnFixedTick() { }
-        public virtual void OnLateTick() { }
+        protected virtual void OnTick() { }
+        protected virtual void OnFixedTick() { }
+        protected virtual void OnLateTick() { }
     }
 }
