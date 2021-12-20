@@ -64,7 +64,7 @@ If you declared `OnEnable()` or `OnDisable()` methods in subclass of `MonoCache`
 
 > But you shouldn't worry, as in this case an error will be displayed in the console
 
-![Exception Screenshot](https://github.com/MeeXaSiK/MonoCache/blob/main/README%20Files/Exception_Screenshot.png)]
+![Exception Screenshot](https://github.com/MeeXaSiK/MonoCache/blob/main/README%20Files/Exception_Screenshot.png)
 
 ## MonoAllocation
 
