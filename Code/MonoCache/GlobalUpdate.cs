@@ -21,6 +21,10 @@ namespace NTC.Global.Cache
 
         private const string OnEnable = nameof(OnEnable);
         private const string OnDisable = nameof(OnDisable);
+        
+        private const string UpdateName = nameof(Update);
+        private const string FixedUpdateName = nameof(FixedUpdate);
+        private const string LateUpdateName = nameof(LateUpdate);
 
         private const string WhiteColor = "FFFFFF";
         private const string BlueColor = "00FFF7";
@@ -78,6 +82,27 @@ namespace NTC.Global.Cache
                             $"{GetColoredText(BlueColor, "protected override void")} " +
                             $"{GetColoredText(OrangeColor, "OnDisabled()")}"));
                     }
+                    
+                    if (method.Name == UpdateName)
+                    {
+                        Debug.LogWarning(
+                            GetWarningBaseText(
+                                method.Name, "Run()", type.Name));
+                    }
+                    
+                    if (method.Name == FixedUpdateName)
+                    {
+                        Debug.LogWarning(
+                            GetWarningBaseText(
+                                method.Name, "FixedRun()", type.Name));
+                    }
+                    
+                    if (method.Name == LateUpdateName)
+                    {
+                        Debug.LogWarning(
+                            GetWarningBaseText(
+                                method.Name, "LateRun()", type.Name));
+                    }
                 }
             }
         }
@@ -91,6 +116,23 @@ namespace NTC.Global.Cache
                 $"can't be implemented in subclass {classNameColored} of {monoCacheNameColored}. Use ");
             
             return $"{methodNameColored} {baseTextColored}";
+        }
+
+        private string GetWarningBaseText(string methodName, string recommendedMethod, string className)
+        {
+            var coloredClass = GetColoredText(OrangeColor, className);
+            var monoCacheNameColored = GetColoredText(OrangeColor, nameof(MonoCache));
+            var coloredMethod = GetColoredText(OrangeColor, methodName);
+            
+            var coloredRecommendedMethod =
+                GetColoredText(BlueColor, "protected override void ") + 
+                GetColoredText(OrangeColor, recommendedMethod);
+            
+            var coloredBaseText = GetColoredText(WhiteColor, 
+                $"It is recommended to replace {coloredMethod} method with {coloredRecommendedMethod} " +
+                $"in subclass {coloredClass} of {monoCacheNameColored}");
+            
+            return coloredBaseText;
         }
 
         private string GetColoredText(string color, string text)
