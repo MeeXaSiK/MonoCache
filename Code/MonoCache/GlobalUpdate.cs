@@ -12,6 +12,7 @@ using UnityEngine;
 
 namespace NTC.Global.Cache
 {
+    [DisallowMultipleComponent]
     public sealed class GlobalUpdate : Singleton<GlobalUpdate>
     {
         public event Action OnUpdate;

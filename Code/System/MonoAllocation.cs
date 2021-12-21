@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 using static NTC.Global.System.NightSugar;
 
 namespace NTC.Global.System
@@ -52,164 +54,93 @@ namespace NTC.Global.System
         
         public T[] Finds<T>() where T : Object => FindObjectsOfType<T>();
         
+
         public T GetCached<T>() where T : Component
         {
-            var index = GetInfo<T>.Index;
-
-            if (allocationEnabled)
-            {
-                _get ??= new Dictionary<int, Component>(16);
-
-                if (_get.TryGetValue(index, out var component))
-                {
-                    return (T) component;
-                }
-            }
-
-            var instance = Get<T>();
-            if (allocationEnabled) _get.Add(index, instance);
-
-            return instance;
+            return GetSingleCached(_get, GetComponent<T>);
         }
 
         public T[] GetsCached<T>() where T : Component
         {
-            var index = GetInfo<T>.Index;
-
-            if (allocationEnabled)
-            {
-                _gets ??= new Dictionary<int, Component[]>(16);
-
-                if (_gets.TryGetValue(index, out var component))
-                {
-                    return (T[]) component;
-                }
-            }
-
-            var instance = Gets<T>();
-            if (allocationEnabled) _gets.Add(index, instance);
-
-            return instance;
+            return GetManyCached(_gets, GetComponents<T>);
         }
 
         public T ChildrenGetCached<T>() where T : Component
         {
-            var index = GetInfo<T>.Index;
-
-            if (allocationEnabled)
-            {
-                _childrenGet ??= new Dictionary<int, Component>(16);
-
-                if (_childrenGet.TryGetValue(index, out var component))
-                {
-                    return (T) component;
-                }
-            }
-
-            var instance = ChildrenGet<T>();
-            if (allocationEnabled) _childrenGet.Add(index, instance);
-
-            return instance;
+            return GetSingleCached(_childrenGet, GetComponentInChildren<T>);
         }
 
         public T[] ChildrenGetsCached<T>() where T : Component
         {
-            var index = GetInfo<T>.Index;
-
-            if (allocationEnabled)
-            {
-                _childrenGets ??= new Dictionary<int, Component[]>(16);
-
-                if (_childrenGets.TryGetValue(index, out var component))
-                {
-                    return (T[]) component;
-                }
-            }
-
-            var instance = ChildrenGets<T>();
-            if (allocationEnabled) _childrenGets.Add(index, instance);
-
-            return instance;
+            return GetManyCached(_childrenGets, GetComponentsInChildren<T>);
         }
 
         public T ParentGetCached<T>() where T : Component
         {
-            var index = GetInfo<T>.Index;
-
-            if (allocationEnabled)
-            {
-                _parentGet ??= new Dictionary<int, Component>(16);
-
-                if (_parentGet.TryGetValue(index, out var component))
-                {
-                    return (T) component;
-                }
-            }
-
-            var instance = ParentGet<T>();
-            if (allocationEnabled) _parentGet.Add(index, instance);
-
-            return instance;
+            return GetSingleCached(_parentGet, GetComponentInParent<T>);
         }
 
         public T[] ParentGetsCached<T>() where T : Component
         {
-            var index = GetInfo<T>.Index;
-
-            if (allocationEnabled)
-            {
-                _parentGets ??= new Dictionary<int, Component[]>(16);
-
-                if (_parentGets.TryGetValue(index, out var component))
-                {
-                    return (T[]) component;
-                }
-            }
-
-            var instance = ParentGets<T>();
-            if (allocationEnabled) _parentGets.Add(index, instance);
-
-            return instance;
+            return GetManyCached(_parentGets, GetComponentsInParent<T>);
         }
 
         public T FindCached<T>() where T : Component
+        {
+            return GetSingleCached(_find, FindObjectOfType<T>);
+        }
+
+        public T[] FindsCached<T>() where T : Component
+        {
+            return GetManyCached(_finds, FindObjectsOfType<T>);
+        }
+        
+        private T GetSingleCached<T>(Dictionary<int, Component> storage, Func<T> getMethod) where T : Component
         {
             var index = GetInfo<T>.Index;
 
             if (allocationEnabled)
             {
-                _find ??= new Dictionary<int, Component>(16);
+                storage ??= new Dictionary<int, Component>(16);
 
-                if (_find.TryGetValue(index, out var component))
+                if (storage.TryGetValue(index, out var component))
                 {
                     return (T) component;
                 }
             }
 
-            var instance = Find<T>();
-            if (allocationEnabled) _find.Add(index, instance);
+            var instance = getMethod?.Invoke();
+
+            if (allocationEnabled && instance != null)
+            {
+                storage.Add(index, instance);
+            }
 
             return instance;
         }
 
-        public T[] FindsCached<T>() where T : Component
+        private T[] GetManyCached<T>(Dictionary<int, Component[]> storage, Func<T[]> getsMethod) where T : Component
         {
             var index = GetInfo<T>.Index;
 
             if (allocationEnabled)
             {
-                _finds ??= new Dictionary<int, Component[]>(16);
+                storage ??= new Dictionary<int, Component[]>(16);
 
-                if (_finds.TryGetValue(index, out var component))
+                if (storage.TryGetValue(index, out var components))
                 {
-                    return (T[]) component;
+                    return (T[]) components;
                 }
             }
 
-            var instance = Finds<T>();
-            if (allocationEnabled) _finds.Add(index, instance);
+            var instances = getsMethod?.Invoke();
 
-            return instance;
+            if (allocationEnabled && instances != null)
+            {
+                storage.Add(index, instances);
+            }
+
+            return instances;
         }
     }
 }

@@ -14,7 +14,8 @@ namespace NTC.Global.Cache
         {
             OnEnabled();
             
-            GlobalUpdate.Instance.
+            GlobalUpdate.
+                GetNotNull().
                 IfNotNull(globalUpdate =>
                 {
                     globalUpdate.OnUpdate += Run;
