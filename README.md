@@ -128,7 +128,7 @@ public class Player : MonoBehaviour
 > Also you can use `EnableAllocation()` or `DisableAllocation()`. Allocation enabled initially
 
 ```csharp
-public class Player : MonoAllocation
+public class Player : MonoCache //or MonoAllocation
 {
     private void Start()
     {
