@@ -1,4 +1,4 @@
-# MonoCache 2.0
+# MonoCache
 
 > MonoCache is a Fast Update Optimization-Caching Framework for Unity by [**Night Train Code**](https://www.youtube.com/c/NightTrainCode)
 
@@ -12,7 +12,6 @@
   * [Installation](#installation)
   * [How to use](#how-to-use)
   * [Need to know](#warning)
-  * [Cached Base Components](#cached-base-components)
 * [MonoAllocation](#monoallocation)
 * [NightSugar](#nightsugar)
 * [GetInfo < TClass >](#getinfot)
@@ -61,39 +60,11 @@ public class Demo : MonoCache
 
 ## Warning
 
-If you declared `OnEnable()` or `OnDisable()` methods in subclass of `MonoCache`, then it won't work correctly or at all.
+If you implement `OnEnable()` or `OnDisable()` methods in subclass of `MonoCache`, then it won't work correctly or at all.
 
 > But you shouldn't worry, as in this case an error will be displayed in the console
 
 ![Exception Screenshot](https://github.com/MeeXaSiK/MonoCache/blob/main/README%20Files/Exception_Screenshot.png)
-
-## Cached Base Components 
-
-> [Performance test](https://youtu.be/7Dvir9Bf8X4?t=279)
-
-| Old | New |
-| ------ | ------ |
-| ```transform``` | ```CachedTransform``` |
-| ```gameObject``` | ```CachedGameObject``` |
-| ```GetInstanceID()``` | ```GetID()``` |
-
-```csharp
-public class Enemy : MonoCache
-{ 
-
-}
-
-public class Player : MonoCache
-{
-    private Enemy _enemy;
-
-    private void Start()
-    {
-        var enemyTransform = _enemy.CachedTransform;
-        var enemyGameObject = _enemy.CachedGameObject;
-    }
-}
-```
 
 ## MonoAllocation
 
