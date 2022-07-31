@@ -17,15 +17,6 @@ namespace NTC.Global.System
         private Dictionary<int, Component> _find;
         private Dictionary<int, Component[]> _finds;
 
-        public int GetID() => cachedInstanceId ??= GetInstanceID();
-        private int? cachedInstanceId;
-
-        public GameObject CachedGameObject => cachedGameObject ??= gameObject;
-        private GameObject cachedGameObject;
-
-        public Transform CachedTransform => cachedTransform ??= transform;
-        private Transform cachedTransform;
-
         private bool allocationEnabled = true;
 
         public void EnableAllocation()
