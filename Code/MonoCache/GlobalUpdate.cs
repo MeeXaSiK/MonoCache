@@ -26,9 +26,9 @@ namespace NTC.Global.Cache
         public const string FixedUpdateMethodName = nameof(FixedUpdate);
         public const string LateUpdateMethodName = nameof(LateUpdate);
 
-        public readonly List<IRunSystem> RunSystems = new List<IRunSystem>(64);
-        public readonly List<IFixedRunSystem> FixedRunSystems = new List<IFixedRunSystem>(32);
-        public readonly List<ILateRunSystem> LateRunSystems = new List<ILateRunSystem>(32);
+        public readonly List<IRunSystem> RunSystems = new List<IRunSystem>(1024);
+        public readonly List<IFixedRunSystem> FixedRunSystems = new List<IFixedRunSystem>(512);
+        public readonly List<ILateRunSystem> LateRunSystems = new List<ILateRunSystem>(256);
 
         private readonly MonoCacheExceptionsChecker monoCacheExceptionsChecker = 
             new MonoCacheExceptionsChecker();
