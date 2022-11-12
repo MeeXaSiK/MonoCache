@@ -5,6 +5,8 @@
 // -------------------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
+using NTC.Global.Cache.Interfaces;
 using NTC.Global.System;
 using UnityEngine;
 
@@ -24,6 +26,10 @@ namespace NTC.Global.Cache
         public const string FixedUpdateMethodName = nameof(FixedUpdate);
         public const string LateUpdateMethodName = nameof(LateUpdate);
 
+        public readonly List<IRunSystem> RunSystems = new List<IRunSystem>(64);
+        public readonly List<IFixedRunSystem> FixedRunSystems = new List<IFixedRunSystem>(32);
+        public readonly List<ILateRunSystem> LateRunSystems = new List<ILateRunSystem>(32);
+
         private readonly MonoCacheExceptionsChecker monoCacheExceptionsChecker = 
             new MonoCacheExceptionsChecker();
         
@@ -34,16 +40,31 @@ namespace NTC.Global.Cache
 
         private void Update()
         {
+            for (int i = 0; i < RunSystems.Count; i++)
+            {
+                RunSystems[i].OnRun();
+            }
+            
             OnUpdate?.Invoke();
         }
 
         private void FixedUpdate()
         {
+            for (int i = 0; i < FixedRunSystems.Count; i++)
+            {
+                FixedRunSystems[i].OnFixedRun();
+            }
+
             OnFixedUpdate?.Invoke();
         }
 
         private void LateUpdate()
         {
+            for (int i = 0; i < LateRunSystems.Count; i++)
+            {
+                LateRunSystems[i].OnLateRun();
+            }
+
             OnLateUpdate?.Invoke();
         }
     }

@@ -4,39 +4,53 @@
 // Copyright (c) 2021-2022 Night Train Code
 // -------------------------------------------------------------------------------------------
 
+using NTC.Global.Cache.Interfaces;
 using NTC.Global.System;
+using UnityEngine.Device;
 
 namespace NTC.Global.Cache
 {
-    public abstract class MonoCache : MonoAllocation
+    public abstract class MonoCache : MonoAllocation, IRunSystem, IFixedRunSystem, ILateRunSystem
     {
+        private GlobalUpdate _globalUpdate;
+        private bool _isSetup;
+        
         private void OnEnable()
         {
             OnEnabled();
+
+            if (_isSetup == false)
+            {
+                Setup();
+            }
             
-            GlobalUpdate.
-                GetNotNull().
-                IfNotNull(globalUpdate =>
-                {
-                    globalUpdate.OnUpdate += Run;
-                    globalUpdate.OnFixedUpdate += FixedRun;
-                    globalUpdate.OnLateUpdate += LateRun;
-                });
+            _globalUpdate.RunSystems.Add(this);
+            _globalUpdate.FixedRunSystems.Add(this);
+            _globalUpdate.LateRunSystems.Add(this);
         }
 
         private void OnDisable()
         {
-            GlobalUpdate.
-                GetCanBeNull().
-                IfNotNull(globalUpdate =>
-                {
-                    globalUpdate.OnUpdate -= Run;
-                    globalUpdate.OnFixedUpdate -= FixedRun;
-                    globalUpdate.OnLateUpdate -= LateRun;
-                });
-            
+            _globalUpdate.RunSystems.Remove(this);
+            _globalUpdate.FixedRunSystems.Remove(this);
+            _globalUpdate.LateRunSystems.Remove(this);
+
             OnDisabled();
         }
+
+        private void Setup()
+        {
+            if (Application.isPlaying)
+            {
+                _globalUpdate = Singleton<GlobalUpdate>.Instance;
+            }
+            
+            _isSetup = true;
+        }
+        
+        void IRunSystem.OnRun() => Run();
+        void IFixedRunSystem.OnFixedRun() => FixedRun();
+        void ILateRunSystem.OnLateRun() => LateRun();
 
         protected virtual void OnEnabled() { }
         protected virtual void OnDisabled() { }
