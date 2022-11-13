@@ -17,30 +17,18 @@ namespace NTC.Global.System
                 action?.Invoke(component);
         }
 
-        public static void Enable(this Component component)
-        {
-            Enable(component.gameObject);
-        }
+        public static void Enable(this Component component) => Enable(component.gameObject);
 
-        public static void Enable(this GameObject gameObject)
-        {
-            gameObject.SetActive(true);
-        }
-        
-        public static void Disable(this Component component)
-        {
-            Disable(component.gameObject);
-        }
-        
-        public static void Disable(this GameObject gameObject)
-        {
-            gameObject.SetActive(false);
-        }
-        
+        public static void Enable(this GameObject gameObject) => gameObject.SetActive(true);
+
+        public static void Disable(this Component component) => Disable(component.gameObject);
+
+        public static void Disable(this GameObject gameObject) => gameObject.SetActive(false);
+
         public static void EnableParent(this Component component)
         {
             var parent = component.transform.parent;
-            
+
             if (parent == null)
                 component.Enable();
             else
@@ -50,7 +38,7 @@ namespace NTC.Global.System
         public static void DisableParent(this Component component)
         {
             var parent = component.transform.parent;
-            
+
             if (parent == null)
                 component.Disable();
             else
@@ -61,6 +49,7 @@ namespace NTC.Global.System
         {
             var transform = component.transform;
             var parent = transform.parent;
+
             return parent == null ? transform : parent;
         }
 
@@ -68,9 +57,10 @@ namespace NTC.Global.System
         {
             var transform = component.transform;
             var children = transform.GetChild(0);
+
             return children == null ? transform : children;
         }
-        
+
         public static T GetNearby<T>(this Component component) where T : Component
         {
             T instance = null;
