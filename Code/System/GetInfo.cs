@@ -7,8 +7,8 @@ namespace NTC.Global.System
     {
         public static Type Type { get; }
         public static int Index { get; }
-        
-        static GetInfo()
+
+        private static GetInfo()
         {
             Type = typeof(T);
             Index = Interlocked.Increment(ref IndexIncrement.Index);
