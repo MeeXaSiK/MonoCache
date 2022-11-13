@@ -139,3 +139,7 @@ You can get component index or type by `static class GetInfo<T>`
 ## Singleton
 
 [Get more information](https://github.com/MeeXaSiK/NightSingleton/)
+
+## More information
+- [Game optimization on Unity. Caching update.](https://youtu.be/7Dvir9Bf8X4)
+- [Game optimization in Unity. We increase FPS.](https://youtu.be/JcqU2zHBwFY)
