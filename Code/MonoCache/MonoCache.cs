@@ -14,7 +14,7 @@ namespace NTC.Global.Cache
     {
         private GlobalUpdate _globalUpdate;
         private bool _isSetup;
-        
+
         private void OnEnable()
         {
             OnEnabled();
@@ -23,7 +23,7 @@ namespace NTC.Global.Cache
             {
                 Setup();
             }
-            
+
             _globalUpdate.RunSystems.Add(this);
             _globalUpdate.FixedRunSystems.Add(this);
             _globalUpdate.LateRunSystems.Add(this);
@@ -44,17 +44,17 @@ namespace NTC.Global.Cache
             {
                 _globalUpdate = Singleton<GlobalUpdate>.Instance;
             }
-            
+
             _isSetup = true;
         }
-        
-        void IRunSystem.OnRun() => Run();
-        void IFixedRunSystem.OnFixedRun() => FixedRun();
-        void ILateRunSystem.OnLateRun() => LateRun();
+
+        private void IRunSystem.OnRun() => Run();
+        private void IFixedRunSystem.OnFixedRun() => FixedRun();
+        private void ILateRunSystem.OnLateRun() => LateRun();
 
         protected virtual void OnEnabled() { }
         protected virtual void OnDisabled() { }
-        
+
         protected virtual void Run() { }
         protected virtual void FixedRun() { }
         protected virtual void LateRun() { }
