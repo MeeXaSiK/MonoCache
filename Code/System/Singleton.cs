@@ -40,12 +40,12 @@ namespace NTC.Global.System
         /// </summary>
         /// <returns> Target instance </returns>
         public static TSingleton GetNotNull() => GetInstance(false);
-        
+
         /// <summary>
         /// Field for cached instance
         /// </summary>
         private static TSingleton cachedInstance;
-        
+
         /// <summary>
         /// Object for thread safety
         /// </summary>
@@ -62,12 +62,12 @@ namespace NTC.Global.System
             {
                 return cachedInstance;
             }
-            
+
             var allInstances = FindObjectsOfType<TSingleton>();
             var instance = allInstances.Length > 0
                 ? allInstances[0]
                 : GetInstanceIfNotFound(canBeNull);
-            
+
             if (allInstances.Length > 1)
             {
                 for (var i = 1; i < allInstances.Length; i++)
@@ -89,8 +89,8 @@ namespace NTC.Global.System
         /// <returns> Null or new instance </returns>
         private static TSingleton GetInstanceIfNotFound(bool canBeNull)
         {
-            return canBeNull 
-                ? null 
+            return canBeNull
+                ? null
                 : new GameObject($"[Singleton] {typeof(TSingleton).Name}").AddComponent<TSingleton>();
         }
     }
