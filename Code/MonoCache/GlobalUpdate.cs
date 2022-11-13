@@ -21,7 +21,7 @@ namespace NTC.Global.Cache
 
         public const string OnEnableMethodName = "OnEnable";
         public const string OnDisableMethodName = "OnDisable";
-        
+
         public const string UpdateMethodName = nameof(Update);
         public const string FixedUpdateMethodName = nameof(FixedUpdate);
         public const string LateUpdateMethodName = nameof(LateUpdate);
@@ -30,13 +30,10 @@ namespace NTC.Global.Cache
         public readonly List<IFixedRunSystem> FixedRunSystems = new List<IFixedRunSystem>(512);
         public readonly List<ILateRunSystem> LateRunSystems = new List<ILateRunSystem>(256);
 
-        private readonly MonoCacheExceptionsChecker monoCacheExceptionsChecker = 
+        private readonly MonoCacheExceptionsChecker monoCacheExceptionsChecker =
             new MonoCacheExceptionsChecker();
-        
-        private void Awake()
-        {
-            monoCacheExceptionsChecker.CheckForExceptions();
-        }
+
+        private void Awake() => monoCacheExceptionsChecker.CheckForExceptions();
 
         private void Update()
         {
@@ -44,7 +41,7 @@ namespace NTC.Global.Cache
             {
                 RunSystems[i].OnRun();
             }
-            
+
             OnUpdate?.Invoke();
         }
 
