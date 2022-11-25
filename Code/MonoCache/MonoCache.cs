@@ -4,6 +4,7 @@
 // Copyright (c) 2021-2022 Night Train Code
 // -------------------------------------------------------------------------------------------
 
+using System;
 using NTC.Global.Cache.Interfaces;
 using NTC.Global.System;
 using UnityEngine.Device;
@@ -21,33 +22,53 @@ namespace NTC.Global.Cache
 
             if (_isSetup == false)
             {
-                Setup();
+                TrySetup();
             }
-            
+
+            if (_isSetup)
+            {
+                SubscribeToGlobalUpdate();
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (_isSetup)
+            {
+                UnsubscribeFromGlobalUpdate();
+            }
+
+            OnDisabled();
+        }
+
+        private void TrySetup()
+        {
+            if (Application.isPlaying)
+            {
+                _globalUpdate = Singleton<GlobalUpdate>.Instance;
+                _isSetup = true;
+            }
+            else
+            {
+                throw new Exception(
+                    $"You tries to get {nameof(GlobalUpdate)} instance when application is not playing!");
+            }
+        }
+        
+        private void SubscribeToGlobalUpdate()
+        {
             _globalUpdate.RunSystems.Add(this);
             _globalUpdate.FixedRunSystems.Add(this);
             _globalUpdate.LateRunSystems.Add(this);
         }
 
-        private void OnDisable()
+        private void UnsubscribeFromGlobalUpdate()
         {
             _globalUpdate.RunSystems.Remove(this);
             _globalUpdate.FixedRunSystems.Remove(this);
             _globalUpdate.LateRunSystems.Remove(this);
-
-            OnDisabled();
         }
 
-        private void Setup()
-        {
-            if (Application.isPlaying)
-            {
-                _globalUpdate = Singleton<GlobalUpdate>.Instance;
-            }
-            
-            _isSetup = true;
-        }
-        
         void IRunSystem.OnRun() => Run();
         void IFixedRunSystem.OnFixedRun() => FixedRun();
         void ILateRunSystem.OnLateRun() => LateRun();

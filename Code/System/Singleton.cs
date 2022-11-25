@@ -19,7 +19,7 @@ namespace NTC.Global.System
             {
                 lock (SecurityLock)
                 {
-                    return GetInstance(false);
+                    return GetInstance();
                 }
             }
         }
@@ -27,24 +27,7 @@ namespace NTC.Global.System
         /// <summary>
         /// Returns the target instance, ignoring thread safety
         /// </summary>
-        public static TSingleton InstanceNonLock => GetInstance(false);
-
-        /// <summary>
-        /// Can return a null instance if target one not found
-        /// </summary>
-        /// <returns> Target instance or null if not found </returns>
-        public static TSingleton GetCanBeNull() => GetInstance(true);
-
-        /// <summary>
-        /// Will create the new instance if target one not found
-        /// </summary>
-        /// <returns> Target instance </returns>
-        public static TSingleton GetNotNull() => GetInstance(false);
-        
-        /// <summary>
-        /// Field for cached instance
-        /// </summary>
-        private static TSingleton cachedInstance;
+        public static TSingleton InstanceNonLock => GetInstance();
         
         /// <summary>
         /// Object for thread safety
@@ -52,46 +35,40 @@ namespace NTC.Global.System
         private static readonly object SecurityLock = new object();
 
         /// <summary>
+        /// Field for cached instance
+        /// </summary>
+        private static TSingleton _cachedInstance;
+        
+        /// <summary>
         /// Main method to get target instance
         /// </summary>
-        /// <param name="canBeNull"> Can return a nullable instance </param>
         /// <returns> Target instance </returns>
-        private static TSingleton GetInstance(bool canBeNull)
+        private static TSingleton GetInstance()
         {
-            if (cachedInstance != null)
+            if (_cachedInstance != null)
             {
-                return cachedInstance;
+                return _cachedInstance;
             }
             
             var allInstances = FindObjectsOfType<TSingleton>();
-            var instance = allInstances.Length > 0
+            var className = typeof(TSingleton).Name;
+            var count = allInstances.Length;
+            var instance = count > 0
                 ? allInstances[0]
-                : GetInstanceIfNotFound(canBeNull);
+                : new GameObject($"[Singleton] {className}").AddComponent<TSingleton>();
             
-            if (allInstances.Length > 1)
+            if (count > 1)
             {
-                for (var i = 1; i < allInstances.Length; i++)
+                for (var i = 1; i < count; i++)
                 {
                     Destroy(allInstances[i]);
                 }
 #if DEBUG
-                Debug.LogError($"The number of {typeof(TSingleton).Name} on the scene is greater than one!");
+                Debug.LogError($"The number of <{className}> on the scene is greater than one!");
 #endif
             }
 
-            return cachedInstance = instance;
-        }
-
-        /// <summary>
-        /// Decides what to do if the instance is not found
-        /// </summary>
-        /// <param name="canBeNull"> Can return a nullable instance if true </param>
-        /// <returns> Null or new instance </returns>
-        private static TSingleton GetInstanceIfNotFound(bool canBeNull)
-        {
-            return canBeNull 
-                ? null 
-                : new GameObject($"[Singleton] {typeof(TSingleton).Name}").AddComponent<TSingleton>();
+            return _cachedInstance = instance;
         }
     }
 }

@@ -17,16 +17,16 @@ namespace NTC.Global.System
         private Dictionary<int, Component> _find;
         private Dictionary<int, Component[]> _finds;
 
-        private bool allocationEnabled = true;
+        private bool _allocationEnabled = true;
 
         public void EnableAllocation()
         {
-            allocationEnabled = true;
+            _allocationEnabled = true;
         }
 
         public void DisableAllocation()
         {
-            allocationEnabled = false;
+            _allocationEnabled = false;
         }
 
         public T Get<T>() => GetComponent<T>();
@@ -90,7 +90,7 @@ namespace NTC.Global.System
         {
             var index = GetInfo<T>.Index;
 
-            if (allocationEnabled)
+            if (_allocationEnabled)
             {
                 storage ??= new Dictionary<int, Component>(16);
 
@@ -102,7 +102,7 @@ namespace NTC.Global.System
 
             var instance = getMethod?.Invoke();
 
-            if (allocationEnabled && instance != null)
+            if (_allocationEnabled && instance != null)
             {
                 storage.Add(index, instance);
             }
@@ -114,7 +114,7 @@ namespace NTC.Global.System
         {
             var index = GetInfo<T>.Index;
 
-            if (allocationEnabled)
+            if (_allocationEnabled)
             {
                 storage ??= new Dictionary<int, Component[]>(16);
 
@@ -126,7 +126,7 @@ namespace NTC.Global.System
 
             var instances = getsMethod?.Invoke();
 
-            if (allocationEnabled && instances != null)
+            if (_allocationEnabled && instances != null)
             {
                 storage.Add(index, instances);
             }

@@ -41,34 +41,41 @@ namespace NTC.Global.System
         {
             var parent = component.transform.parent;
             
-            if (parent == null)
-                component.Enable();
-            else
+            if (parent != null)
+            {
                 parent.Enable();
+            }
         }
 
         public static void DisableParent(this Component component)
         {
             var parent = component.transform.parent;
-            
-            if (parent == null)
-                component.Disable();
-            else
+
+            if (parent != null)
+            {
                 parent.Disable();
+            }
         }
 
-        public static Transform TryGetParent(this Component component)
+        public static bool TryGetParent(this Component component, out Transform parent)
         {
             var transform = component.transform;
-            var parent = transform.parent;
-            return parent == null ? transform : parent;
+            
+            parent = transform.parent;
+
+            return parent != null;
         }
 
-        public static Transform TryGetChild(this Component component)
+        public static bool TryGetChild(this Component component, out Transform child)
         {
             var transform = component.transform;
-            var children = transform.GetChild(0);
-            return children == null ? transform : children;
+            var childCount = transform.childCount;
+
+            child = childCount > 0 
+                ? transform.GetChild(0) 
+                : null;
+            
+            return childCount > 0;
         }
         
         public static T GetNearby<T>(this Component component) where T : Component
