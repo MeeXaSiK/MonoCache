@@ -8,7 +8,7 @@
 
 ## Navigation
 
-* [Main](#monocache-20)
+* [Main](#monocache)
   * [Installation](#installation)
   * [How to use](#how-to-use)
   * [Need to know](#warning)
