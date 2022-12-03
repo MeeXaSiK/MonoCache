@@ -19,7 +19,7 @@
 
 ## Installation
 
-1. Add files into yout Unity project
+1. Install `MonoCache` in your Unity project
 2. Add component `GlobalUpdate` on any `GameObject` in scene
 
    > otherwise it will be added automatically, but it is better to add `GlobalUpdate` manually
