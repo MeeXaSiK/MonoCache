@@ -3,7 +3,6 @@
 > MonoCache is a Fast Update Optimization-Caching Framework for Unity by [**Night Train Code**](https://www.youtube.com/c/NightTrainCode)
 
 * The framework caches all Update methods in one thread, that gives **≈25% performance**
-
 * Also framework gives more useful features (more details below in the documentation)
 
 ## Navigation
