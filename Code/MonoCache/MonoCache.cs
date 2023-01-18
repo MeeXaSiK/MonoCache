@@ -1,7 +1,7 @@
 // -------------------------------------------------------------------------------------------
 // The MIT License
 // MonoCache is a fast optimization framework for Unity https://github.com/MeeXaSiK/MonoCache
-// Copyright (c) 2021-2022 Night Train Code
+// Copyright (c) 2021-2023 Night Train Code
 // -------------------------------------------------------------------------------------------
 
 using System;
@@ -11,7 +11,7 @@ using UnityEngine.Device;
 
 namespace NTC.Global.Cache
 {
-    public abstract class MonoCache : MonoAllocation, IRunSystem, IFixedRunSystem, ILateRunSystem
+    public abstract class MonoCache : MonoShortСuts, IRunSystem, IFixedRunSystem, ILateRunSystem
     {
         private GlobalUpdate _globalUpdate;
         private bool _isSetup;
@@ -57,16 +57,16 @@ namespace NTC.Global.Cache
         
         private void SubscribeToGlobalUpdate()
         {
-            _globalUpdate.RunSystems.Add(this);
-            _globalUpdate.FixedRunSystems.Add(this);
-            _globalUpdate.LateRunSystems.Add(this);
+            _globalUpdate.AddRunSystem(this);
+            _globalUpdate.AddFixedRunSystem(this);
+            _globalUpdate.AddLateRunSystem(this);
         }
 
         private void UnsubscribeFromGlobalUpdate()
         {
-            _globalUpdate.RunSystems.Remove(this);
-            _globalUpdate.FixedRunSystems.Remove(this);
-            _globalUpdate.LateRunSystems.Remove(this);
+            _globalUpdate.RemoveRunSystem(this);
+            _globalUpdate.RemoveFixedRunSystem(this);
+            _globalUpdate.RemoveLateRunSystem(this);
         }
 
         void IRunSystem.OnRun() => Run();

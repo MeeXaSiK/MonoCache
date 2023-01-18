@@ -57,6 +57,11 @@ namespace NTC.Global.System
             }
         }
 
+        public static void Unparent(this Transform transform)
+        {
+            transform.SetParent(null);
+        }
+
         public static bool TryGetParent(this Component component, out Transform parent)
         {
             var transform = component.transform;
