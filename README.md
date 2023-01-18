@@ -11,7 +11,7 @@
   * [Installation](#installation)
   * [How to use](#how-to-use)
   * [Need to know](#warning)
-* [MonoAllocation](#monoallocation)
+* [MonoShortCuts](#monoshortcuts)
 * [NightSugar](#nightsugar)
 * [GetInfo < TClass >](#getinfot)
 * [Singleton](#singleton)
@@ -65,20 +65,18 @@ If you implement `OnEnable()` or `OnDisable()` methods in subclass of `MonoCache
 
 ![Exception Screenshot](https://github.com/MeeXaSiK/MonoCache/blob/main/README%20Files/Exception_Screenshot.png)
 
-## MonoAllocation
+## MonoShortCuts
 
-> ***You can get components cached (≈30% faster than regular methods)***
-
-| Old | New | With Allocation |
-| ------ | ------ | ------ |
-| ```GetComponent<T>()``` | ```Get<T>()``` | ```GetCached<T>()``` |
-| ```GetComponents<T>()``` | ```Gets<T>()``` | ```GetsCached<T>()``` |
-| ```GetComponentInChildren<T>()``` | ```ChildrenGet<T>()``` | ```ChildrenGetCached<T>()``` |
-| ```GetComponentsInChildren<T>()``` | ```ChildrenGets<T>()``` | ```ChildrenGetsCached<T>()``` |
-| ```GetComponentInParent<T>()``` | ```ParentGet<T>()``` | ```ParentGetCached<T>()``` |
-| ```GetComponentsInParent<T>()``` | ```ParentGets<T>()``` | ```ParentGetsCached<T>()``` |
-| ```FindObjectOfType<T>()``` | ```Find<T>()``` | ```FindCached<T>()``` |
-| ```FindObjectsOfType<T>()``` | ```Finds<T>()``` | ```FindsCached<T>()``` |
+| Old | New | 
+| ------ | ------ |
+| ```GetComponent<T>()``` | ```Get<T>()``` |
+| ```GetComponents<T>()``` | ```Gets<T>()``` |
+| ```GetComponentInChildren<T>()``` | ```ChildrenGet<T>()``` |
+| ```GetComponentsInChildren<T>()``` | ```ChildrenGets<T>()``` |
+| ```GetComponentInParent<T>()``` | ```ParentGet<T>()``` |
+| ```GetComponentsInParent<T>()``` | ```ParentGets<T>()``` |
+| ```FindObjectOfType<T>()``` | ```Find<T>()``` |
+| ```FindObjectsOfType<T>()``` | ```Finds<T>()``` |
 
 #### Old implementation:
 
@@ -95,10 +93,8 @@ public class Player : MonoBehaviour
 
 #### New implementation
 
-> Also you can use `EnableAllocation()` or `DisableAllocation()`. Allocation enabled initially
-
 ```csharp
-public class Player : MonoCache //or MonoAllocation
+public class Player : MonoCache //or MonoShortCuts
 {
     private void Start()
     {
@@ -120,6 +116,7 @@ public class Player : MonoCache //or MonoAllocation
 | `Disable()` | Replaces `SetActive(false)` |
 | `EnableParent()` | Tries to enable parent gameObject |
 | `DisableParent()` | Tries to disable parent gameObject |
+| `Unparent()` | Sets null parent for transform |
 | `TryGetParent()` | Tries to get parent transform |
 | `TryGetChild()` | Tries to get first child transform |
 | `GetNearby<T>()` | Tries to get component in parent and in children |
