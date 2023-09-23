@@ -12,10 +12,10 @@
     "keywords": [
         "monocache",
 		"nighttraincode",
-        "performance",
+        "performance"
     ],
     "dependencies": {
-		"singleton": "git://github.com/MeeXaSiK/Singleton.git#commit-ish"
+		"singleton": "git+https://github.com/MeeXaSiK/Singleton.git"
 	},
     "repository": {
         "type": "git",
