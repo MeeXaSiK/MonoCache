@@ -15,7 +15,7 @@
         "performance",
     ],
     "dependencies": {
-		"singleton": "meexasik/singleton"
+		"singleton": "git+https://github.com/MeeXaSiK/Singleton.git"
 	},
     "repository": {
         "type": "git",
