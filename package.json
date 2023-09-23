@@ -1,0 +1,24 @@
+{
+    "name": "com.nighttraincode.monocache",
+    "author": 
+	{
+		"name": "Night Train Code",
+		"url": "https://www.youtube.com/@NightTrainCode/"
+	},
+    "displayName": "Mono Cache",
+    "description": "Update optimization framework for Unity.",
+    "unity": "2020.3",
+    "version": "3.0.0",
+    "keywords": [
+        "monocache",
+		"nighttraincode",
+        "performance",
+    ],
+    "dependencies": {
+		"com.nighttraincode.singleton": "2.0.0"
+	},
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/MeeXaSiK/MonoCache.git"
+    }
+}

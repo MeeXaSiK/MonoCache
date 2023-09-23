@@ -5,14 +5,15 @@
 // -------------------------------------------------------------------------------------------
 
 using System;
-using NTC.Global.Cache.Interfaces;
-using NTC.Global.System;
-using UnityEngine.Device;
+using NTC.Singleton;
+using UnityEngine;
 
-namespace NTC.Global.Cache
+namespace NTC.MonoCache
 {
-    public abstract class MonoCache : MonoShortСuts, IRunSystem, IFixedRunSystem, ILateRunSystem
+    public abstract class MonoCache : MonoBehaviour
     {
+        internal int _index;
+
         private GlobalUpdate _globalUpdate;
         private bool _isSetup;
         
@@ -27,7 +28,7 @@ namespace NTC.Global.Cache
 
             if (_isSetup)
             {
-                SubscribeToGlobalUpdate();
+                _globalUpdate.Add(this);
             }
         }
 
@@ -35,7 +36,7 @@ namespace NTC.Global.Cache
         {
             if (_isSetup)
             {
-                UnsubscribeFromGlobalUpdate();
+                _globalUpdate.Remove(this);
             }
 
             OnDisabled();
@@ -54,28 +55,13 @@ namespace NTC.Global.Cache
                     $"You tries to get {nameof(GlobalUpdate)} instance when application is not playing!");
             }
         }
-        
-        private void SubscribeToGlobalUpdate()
-        {
-            _globalUpdate.AddRunSystem(this);
-            _globalUpdate.AddFixedRunSystem(this);
-            _globalUpdate.AddLateRunSystem(this);
-        }
 
-        private void UnsubscribeFromGlobalUpdate()
-        {
-            _globalUpdate.RemoveRunSystem(this);
-            _globalUpdate.RemoveFixedRunSystem(this);
-            _globalUpdate.RemoveLateRunSystem(this);
-        }
-
-        void IRunSystem.OnRun() => Run();
-        void IFixedRunSystem.OnFixedRun() => FixedRun();
-        void ILateRunSystem.OnLateRun() => LateRun();
+        internal void RaiseRun() => Run();
+        internal void RaiseFixedRun() => FixedRun();
+        internal void RaiseLateRun() => LateRun();
 
         protected virtual void OnEnabled() { }
         protected virtual void OnDisabled() { }
-        
         protected virtual void Run() { }
         protected virtual void FixedRun() { }
         protected virtual void LateRun() { }

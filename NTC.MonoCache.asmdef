@@ -1,0 +1,16 @@
+{
+    "name": "NTC.MonoCache",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e20a15c6864dfe940aae5eccb66340bb"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
