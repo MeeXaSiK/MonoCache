@@ -15,7 +15,7 @@
         "performance",
     ],
     "dependencies": {
-		"com.nighttraincode.singleton": "2.0.0"
+		"singleton": "meexasik/singleton"
 	},
     "repository": {
         "type": "git",
