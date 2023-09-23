@@ -15,7 +15,7 @@
         "performance"
     ],
     "dependencies": {
-		"singleton": "github:MeeXaSiK/Singleton#semver:^2.0.0"
+		"singleton": "git+https://github.com/MeeXaSiK/Singleton.git#2.0.0"
 	},
     "repository": {
         "type": "git",
