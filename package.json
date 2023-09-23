@@ -15,7 +15,7 @@
         "performance"
     ],
     "dependencies": {
-		"com.nighttraincode.singleton": "2.0.0"
+		"com.nighttraincode.singleton": "git://github.com/MeeXaSiK/Singleton.git"
 	},
     "repository": {
         "type": "git",
