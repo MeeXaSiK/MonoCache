@@ -1,137 +1,61 @@
-# MonoCache
+# 🚄 MonoCache
+[![License](https://img.shields.io/github/license/meexasik/monocache?color=318CE7&style=flat-square)](LICENSE.md) [![Version](https://img.shields.io/github/package-json/v/MeeXaSiK/MonoCache?color=318CE7&style=flat-square)](package.json) [![Unity](https://img.shields.io/badge/Unity-2020.3+-2296F3.svg?color=318CE7&style=flat-square)](https://unity.com/)
 
-> MonoCache is a Fast Update Optimization-Caching Framework for Unity by [**Night Train Code**](https://www.youtube.com/c/NightTrainCode)
+**MonoCache** is a fast framework for caching Unity update methods by [**Night Train Code**](https://www.youtube.com/c/NightTrainCode)
 
-* The framework caches all Update methods in one thread, that gives **≈25% performance**
-* Also framework gives more useful features (more details below in the documentation)
+🚀 The framework caches Unity update methods, which improves performance
 
-## Navigation
+# 🌐 Navigation
 
-* [Main](#monocache)
-  * [Installation](#installation)
-  * [How to use](#how-to-use)
-  * [Need to know](#warning)
-* [MonoShortCuts](#monoshortcuts)
-* [NightSugar](#nightsugar)
-* [GetInfo < TClass >](#getinfot)
-* [Singleton](#singleton)
+* [Main](#-monocache)
+  * [Installation](#-installation)
+  * [How to use](#-how-to-use)
 
-## Installation
+# ▶ Installation
+## As a Unity module
+Supports installation as a Unity module via a git link in the **PackageManager**
+```
+https://github.com/MeeXaSiK/MonoCache.git
+```
+or direct editing of `Packages/manifest.json`:
+```
+"com.nighttraincode.monocache": "https://github.com/MeeXaSiK/MonoCache.git",
+```
+## As source
+You can also clone the code into your Unity project.
 
-1. Install `MonoCache` in your Unity project
-2. Add component `GlobalUpdate` on any `GameObject` in scene
+# 🔸 How to use
 
-   > otherwise it will be added automatically, but it is better to add `GlobalUpdate` manually
-   
-## How to use
+Just use these `MonoCache` methods instead of the basic ones.
 
 ```csharp
-using NTC.Global.Cache;
+using NTC.MonoCache;
 
 public class Demo : MonoCache
 {
     protected override void OnEnabled()
     {
-        //Replaces base "OnEnable()" method
+        // Replaces base "OnEnable()" method.
     }
 
     protected override void OnDisabled()
     {
-        //Replaces base "OnDisable()" method
+        // Replaces base "OnDisable()" method.
     }
 
     protected override void Run()
     {
-        //Replaces base "Update()" method
+        // Replaces base "Update()" method.
     }
 
     protected override void FixedRun()
     {
-        //Replaces base "FixedUpdate()" method
+        // Replaces base "FixedUpdate()" method.
     }
 
     protected override void LateRun()
     {
-        //Replaces base "LateUpdate()" method
+        // Replaces base "LateUpdate()" method.
     }
 }
 ```
-
-## Warning
-
-If you implement `OnEnable()` or `OnDisable()` methods in subclass of `MonoCache`, then it won't work correctly or at all.
-
-> But you shouldn't worry, as in this case an error will be displayed in the console
-
-![Exception Screenshot](https://github.com/MeeXaSiK/MonoCache/blob/main/README%20Files/Exception_Screenshot.png)
-
-## MonoShortCuts
-
-| Old | New | 
-| ------ | ------ |
-| ```GetComponent<T>()``` | ```Get<T>()``` |
-| ```GetComponents<T>()``` | ```Gets<T>()``` |
-| ```GetComponentInChildren<T>()``` | ```ChildrenGet<T>()``` |
-| ```GetComponentsInChildren<T>()``` | ```ChildrenGets<T>()``` |
-| ```GetComponentInParent<T>()``` | ```ParentGet<T>()``` |
-| ```GetComponentsInParent<T>()``` | ```ParentGets<T>()``` |
-| ```FindObjectOfType<T>()``` | ```Find<T>()``` |
-| ```FindObjectsOfType<T>()``` | ```Finds<T>()``` |
-
-#### Old implementation:
-
-```csharp
-public class Player : MonoBehaviour
-{
-    private void Start()
-    {
-        var health = GetComponent<UnitHealth>();
-        var viewModel = GetComponentInChildren<UnitViewModel>();
-    }
-}
-```
-
-#### New implementation
-
-```csharp
-public class Player : MonoCache //or MonoShortCuts
-{
-    private void Start()
-    {
-        var health = Get<UnitHealth>();
-        var viewModel = ChildrenGet<UnitViewModel>();
-    }
-}
-```
-
-## NightSugar
-
-> `using NTC.Global.System;` or `using static NTC.Global.System.NightSugar`;
-
-| Method | Info |
-| ------ | ------ |
-| `IfNotNull()` | `GetComponent<T>().IfNotNull(o => Debug.Log($"{typeof(T).Name} not null"))` |
-| `IfNull()` | `GetComponent<T>().IfNull(o => Debug.Log($"{typeof(T).Name} is null"))` |
-| `Enable()` | Replaces `SetActive(true)` |
-| `Disable()` | Replaces `SetActive(false)` |
-| `EnableParent()` | Tries to enable parent gameObject |
-| `DisableParent()` | Tries to disable parent gameObject |
-| `Unparent()` | Sets null parent for transform |
-| `TryGetParent()` | Tries to get parent transform |
-| `TryGetChild()` | Tries to get first child transform |
-| `GetNearby<T>()` | Tries to get component in parent and in children |
-
-## `GetInfo<T>`
-
-You can get component index or type by `static class GetInfo<T>`
-
-> `using NTC.Global.System;`
-
-```csharp
-  var id = GetInfo<Player>.Index;
-  var type = GetInfo<Player>.Type;
-```
-
-## Singleton
-
-[Get more information](https://github.com/MeeXaSiK/NightSingleton/)
