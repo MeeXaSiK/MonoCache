@@ -14,9 +14,6 @@
 		"nighttraincode",
         "performance"
     ],
-    "dependencies": {
-		"com.nighttraincode.singleton": "https://github.com/MeeXaSiK/Singleton.git"
-	},
     "repository": {
         "type": "git",
         "url": "https://github.com/MeeXaSiK/MonoCache.git"

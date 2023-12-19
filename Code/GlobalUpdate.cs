@@ -6,16 +6,35 @@
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using NTC.Singleton;
 using UnityEngine;
 
 namespace NTC.MonoCache
 {
     [DisallowMultipleComponent]
-    public sealed class GlobalUpdate : Singleton<GlobalUpdate>
+    public sealed class GlobalUpdate : MonoBehaviour
     {
+        private static GlobalUpdate s_instance;
         private readonly List<MonoCache> _monoCaches = new List<MonoCache>(32);
         private int _count;
+
+        internal static GlobalUpdate Instance
+        {
+            get
+            {
+                if (s_instance == null)
+                {
+                    s_instance = FindObjectOfType<GlobalUpdate>();
+#if DEBUG
+                    if (s_instance == null)
+                    {
+                        Debug.LogError($"The <{nameof(GlobalUpdate)}> was not found on the scene!");
+                    }
+#endif
+                }
+
+                return s_instance;
+            }
+        }
 
 #if DEBUG
         private void Awake()

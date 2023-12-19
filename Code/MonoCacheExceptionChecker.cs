@@ -19,7 +19,9 @@ namespace NTC.MonoCache
         private const string FixedUpdateMethodName = "FixedUpdate";
         private const string LateUpdateMethodName = "LateUpdate";
         
-        private const BindingFlags MethodFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance |
+        private const BindingFlags MethodFlags = BindingFlags.Public | 
+                                                 BindingFlags.NonPublic | 
+                                                 BindingFlags.Instance |
                                                  BindingFlags.DeclaredOnly;
         
         public static void CheckForExceptions()
@@ -28,13 +30,17 @@ namespace NTC.MonoCache
             {
                 OnEnableMethodName, OnDisableMethodName, UpdateMethodName, FixedUpdateMethodName, LateUpdateMethodName
             };
+            var monoCacheType = typeof(MonoCache);
             var subclassTypes = Assembly
-                .GetAssembly(typeof(MonoCache))
+                .GetAssembly(monoCacheType)
                 .GetTypes()
-                .Where(type => type.IsAssignableFrom(typeof(MonoCache)));
+                .Where(type => type.IsAssignableFrom(monoCacheType));
             
             foreach (var type in subclassTypes)
             {
+                if (type == monoCacheType)
+                    continue;
+                
                 var methods = type.GetMethods(MethodFlags);
 
                 foreach (var targetMethodName in targetMethodNames)
@@ -43,8 +49,8 @@ namespace NTC.MonoCache
                     {
                         if (method.Name == targetMethodName)
                         {
-                            Debug.LogError($"You are using the basic Unity method <{targetMethodName}>! " +
-                                          $"Use the analogue from <{nameof(MonoCache)}>");
+                            Debug.LogError($"You are using the basic Unity method <{targetMethodName}> " +
+                                           $"in <{type.Name}>! Use the analogue from <{nameof(MonoCache)}>");
                         }
                     }
                 }

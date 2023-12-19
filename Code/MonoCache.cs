@@ -5,7 +5,6 @@
 // -------------------------------------------------------------------------------------------
 
 using System;
-using NTC.Singleton;
 using UnityEngine;
 
 namespace NTC.MonoCache
@@ -46,7 +45,7 @@ namespace NTC.MonoCache
         {
             if (Application.isPlaying)
             {
-                _globalUpdate = Singleton<GlobalUpdate>.Instance;
+                _globalUpdate = GlobalUpdate.Instance;
                 _isSetup = true;
             }
             else

@@ -1,9 +1,7 @@
 {
     "name": "NTC.MonoCache",
     "rootNamespace": "",
-    "references": [
-        "GUID:e20a15c6864dfe940aae5eccb66340bb"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
