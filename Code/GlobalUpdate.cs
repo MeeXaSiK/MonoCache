@@ -1,7 +1,7 @@
 ﻿// -------------------------------------------------------------------------------------------
 // The MIT License
 // MonoCache is a fast optimization framework for Unity https://github.com/MeeXaSiK/MonoCache
-// Copyright (c) 2021-2023 Night Train Code
+// Copyright (c) 2021-2024 Night Train Code
 // -------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;

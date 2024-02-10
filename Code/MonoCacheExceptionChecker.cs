@@ -1,10 +1,11 @@
 ﻿// -------------------------------------------------------------------------------------------
 // The MIT License
 // MonoCache is a fast optimization framework for Unity https://github.com/MeeXaSiK/MonoCache
-// Copyright (c) 2021-2023 Night Train Code
+// Copyright (c) 2021-2024 Night Train Code
 // -------------------------------------------------------------------------------------------
 
 #if DEBUG
+using System;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -31,16 +32,13 @@ namespace NTC.MonoCache
                 OnEnableMethodName, OnDisableMethodName, UpdateMethodName, FixedUpdateMethodName, LateUpdateMethodName
             };
             var monoCacheType = typeof(MonoCache);
-            var subclassTypes = Assembly
+            var derivedTypes = Assembly
                 .GetAssembly(monoCacheType)
                 .GetTypes()
-                .Where(type => type.IsAssignableFrom(monoCacheType));
+                .Where(type => type != monoCacheType && monoCacheType.IsAssignableFrom(type));
             
-            foreach (var type in subclassTypes)
+            foreach (var type in derivedTypes)
             {
-                if (type == monoCacheType)
-                    continue;
-                
                 var methods = type.GetMethods(MethodFlags);
 
                 foreach (var targetMethodName in targetMethodNames)
