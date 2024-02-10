@@ -8,7 +8,7 @@
     "displayName": "Mono Cache",
     "description": "Update optimization framework for Unity.",
     "unity": "2020.3",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "keywords": [
         "monocache",
 		"nighttraincode",
